@@ -2,24 +2,14 @@ program test_mapgen
   use mapgen
 
   integer, dimension(10,8):: array
-type(GameMap) :: foo
-  ! array = generate_random_matrix(10,8, 12, 180, .false., .false.)
-  ! array = zeros(3,4)
+  type(GameMap) :: foo
 
-  ! do n=1,10
-  !    print*, n
-  ! end do
-
-  ! do i_x=1,2
-  !    print*, array(1:2, 1)
-  ! end do
 
   print*, "print_map function"
 
-  foo = generate_map(4)
+  foo = generate_map(4, 4, 2)
 
-  ! call print_map(array)
+  call print_map(foo%array)
 
-  ! print*, randint(5,25)
 
 end program

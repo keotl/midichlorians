@@ -1,31 +1,49 @@
 module mapgen
   use array_manipulation
   type, public :: GameMap
-     integer:: row, col
-     integer, pointer :: array(:,:)
+     integer, allocatable :: array(:,:)
 
   end type GameMap
 
 contains
 
-  type(GameMap) function generate_map(player_count) result(result)
+  type(GameMap) function generate_map(player_count, rows, columns) result(result)
     ! allowed player counts : 2, 4, 6, 9
     integer:: player_count
     logical :: horizontal_symmetry
     logical :: vertical_symmetry
-    integer, pointer :: single_matrix(:,:), duplicated_matrix(:,:)
+    integer, allocatable :: single_matrix(:,:), duplicated_matrix(:,:), tiled_matrix(:,:)
+    integer :: rows, columns
 
     horizontal_symmetry = player_count .ne. 9
     vertical_symmetry = player_count .ne. 9 .and. player_count .ne. 2
 
-    allocate(single_matrix(10,8))
 
-    single_matrix = generate_random_matrix(10,8, 14, 200, horizontal_symmetry, vertical_symmetry)
+    allocate(single_matrix(rows,columns))
+    single_matrix = generate_random_matrix(rows,columns, rows + 4, 200, horizontal_symmetry, vertical_symmetry)
 
-    call print_map(single_matrix)
+    if (player_count == 2) then
+       allocate(tiled_matrix(rows, columns * 2))
+       tiled_matrix = concatenate(single_matrix, horizontal_flip(single_matrix), HORIZONTAL)
+    else if (player_count == 4) then
+       tiled_matrix = tile_quarters(single_matrix)
+    end if
+
+
+    result = GameMap(tiled_matrix)
 
   end function
 
+  function tile_quarters(array) result(result)
+    integer , allocatable :: array(:,:), result(:,:), half_map(:,:)
+    integer, dimension(2) :: shape_
+    shape_ = shape(array)
+
+    allocate(half_map(shape_(1)*2, shape_(2)))
+    half_map = concatenate(array, vertical_flip(array), VERTICAL)
+    allocate(result(shape_(1)*2, shape_(2)*2))
+    result = concatenate(half_map, horizontal_flip(half_map), HORIZONTAL)
+  end function
 
   function generate_random_matrix(x,y, pulse_count, pulse_value, horizontal_symmetry, vertical_symmetry) result(result)
     integer:: x,y, pulse_count, pulse_value
