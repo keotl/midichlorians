@@ -7,7 +7,7 @@ program test_mapgen
 
   print*, "print_map function"
 
-  foo = generate_map(4, 4, 2)
+  foo = generate_map(6, 4, 3)
 
   call print_map(foo%array)
 

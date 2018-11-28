@@ -27,8 +27,9 @@ contains
        tiled_matrix = concatenate(single_matrix, horizontal_flip(single_matrix), HORIZONTAL)
     else if (player_count == 4) then
        tiled_matrix = tile_quarters(single_matrix)
+    else if (player_count == 6) then
+       tiled_matrix = tile_sixths(single_matrix)
     end if
-
 
     result = GameMap(tiled_matrix)
 
@@ -42,6 +43,21 @@ contains
     allocate(half_map(shape_(1)*2, shape_(2)))
     half_map = concatenate(array, vertical_flip(array), VERTICAL)
     allocate(result(shape_(1)*2, shape_(2)*2))
+    result = concatenate(half_map, horizontal_flip(half_map), HORIZONTAL)
+  end function
+
+  function tile_sixths(array) result(result)
+    integer, allocatable :: array(:,:), result(:,:), half_map(:,:), left_intermediary(:,:)
+    integer, dimension(2) :: shape_
+    shape_ = shape(array)
+
+    allocate(left_intermediary(shape_(1)*2, shape_(2)))
+    left_intermediary = concatenate(array, array, VERTICAL)
+
+    allocate(half_map(shape_(1)*3, shape_(2)))
+    half_map = concatenate(left_intermediary, array, VERTICAL)
+
+    allocate(result(shape_(1)*3, shape_(2)*2))
     result = concatenate(half_map, horizontal_flip(half_map), HORIZONTAL)
   end function
 
