@@ -19,12 +19,7 @@ contains
        result(randint(1,x), randint(1, y)) = pulse_value
     end do
 
-    result(3,3) = 255
-
-    call print_map(result)
-
     kernel = reshape((/0, 1, 0, 1, 4, 1, 0, 1, 0/), (/3,3/))
-    call print_map(kernel)
 
     call convolute(result, kernel, .true., .true., 8)
     call convolute(result, kernel, .true., .true., 8)
