@@ -2,8 +2,8 @@ program test_mapgen
   use mapgen
 
   integer, dimension(10,8):: array
-
-  array = generate_random(10,8, 12, 180)
+type(GameMap) :: foo
+  ! array = generate_random_matrix(10,8, 12, 180, .false., .false.)
   ! array = zeros(3,4)
 
   ! do n=1,10
@@ -16,7 +16,9 @@ program test_mapgen
 
   print*, "print_map function"
 
-  call print_map(array)
+  foo = generate_map(4)
+
+  ! call print_map(array)
 
   ! print*, randint(5,25)
 
