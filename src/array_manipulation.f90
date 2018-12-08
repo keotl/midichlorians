@@ -26,7 +26,7 @@ contains
     end do
   end subroutine
 
-  subroutine convolute(array, kernel, horizontal_mirror, vertical_mirror, factor)
+  subroutine convolve(array, kernel, horizontal_mirror, vertical_mirror, factor)
     integer, dimension(:,:):: array, kernel
     logical :: horizontal_mirror, vertical_mirror
     integer, dimension(2) :: array_shape, kernel_shape

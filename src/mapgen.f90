@@ -75,8 +75,8 @@ contains
 
     kernel = reshape((/0, 1, 0, 1, 4, 1, 0, 1, 0/), (/3,3/))
 
-    call convolute(result, kernel, horizontal_symmetry, vertical_symmetry, 8)
-    call convolute(result, kernel, horizontal_symmetry, vertical_symmetry, 8)
+    call convolve(result, kernel, horizontal_symmetry, vertical_symmetry, 8)
+    call convolve(result, kernel, horizontal_symmetry, vertical_symmetry, 8)
 
   end function
 
